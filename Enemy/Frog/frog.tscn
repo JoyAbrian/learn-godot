@@ -1,12 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://bqbsdd15x8f23"]
+[gd_scene load_steps=16 format=3 uid="uid://bqbsdd15x8f23"]
 
 [ext_resource type="Script" path="res://Enemy/Frog/Frog.gd" id="1_kuval"]
-[ext_resource type="Texture2D" uid="uid://c6uguuyhj47mq" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/enemy-death/enemy-death-1.png" id="2_hfud5"]
 [ext_resource type="Texture2D" uid="uid://l6h01iciymqc" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/enemy-death/enemy-death-2.png" id="3_rc346"]
 [ext_resource type="Texture2D" uid="uid://buafagnjp7wos" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/enemy-death/enemy-death-3.png" id="4_euaka"]
-[ext_resource type="Texture2D" uid="uid://i0h77c6vx3u6" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/enemy-death/enemy-death-4.png" id="5_krcrw"]
 [ext_resource type="Texture2D" uid="uid://bnr4k1c2pnvhf" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/enemy-death/enemy-death-5.png" id="6_p0w8f"]
-[ext_resource type="Texture2D" uid="uid://bhh4gjhniwwic" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/enemy-death/enemy-death-6.png" id="7_0060q"]
 [ext_resource type="Texture2D" uid="uid://dpt3j4fns385r" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/frog/idle/frog-idle-1.png" id="8_og164"]
 [ext_resource type="Texture2D" uid="uid://caj5jk0o5mhqn" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/frog/idle/frog-idle-2.png" id="9_0vl3r"]
 [ext_resource type="Texture2D" uid="uid://cfecas1abxkk6" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/sprites/frog/idle/frog-idle-3.png" id="10_tnlog"]
@@ -21,22 +18,13 @@ size = Vector2(25, 20)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_hfud5")
-}, {
-"duration": 1.0,
 "texture": ExtResource("3_rc346")
 }, {
 "duration": 1.0,
 "texture": ExtResource("4_euaka")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_krcrw")
-}, {
-"duration": 1.0,
 "texture": ExtResource("6_p0w8f")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_0060q")
 }],
 "loop": false,
 "name": &"Death",
@@ -83,6 +71,9 @@ radius = 245.008
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mmni6"]
 size = Vector2(25.25, 2)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ake17"]
+size = Vector2(27.625, 19)
+
 [node name="Frog" type="CharacterBody2D"]
 script = ExtResource("1_kuval")
 
@@ -92,7 +83,7 @@ shape = SubResource("RectangleShape2D_f7mdw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xdm0y")
-animation = &"Idle"
+animation = &"Death"
 metadata/_edit_lock_ = true
 
 [node name="PlayerDetection" type="Area2D" parent="."]
@@ -107,8 +98,18 @@ shape = SubResource("CircleShape2D_l0pmi")
 position = Vector2(-0.375, -10)
 shape = SubResource("RectangleShape2D_mmni6")
 
+[node name="PlayerCollision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCollision"]
+position = Vector2(-0.8125, 1.5)
+shape = SubResource("RectangleShape2D_ake17")
+
 [connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
 [connection signal="body_exited" from="PlayerDetection" to="." method="_on_player_detection_body_exited"]
 [connection signal="body_entered" from="PlayerAttack" to="." method="_on_player_attack_body_entered"]
 [connection signal="body_entered" from="PlayerAttack" to="." method="_on_player_detection_body_entered"]
 [connection signal="body_exited" from="PlayerAttack" to="." method="_on_player_detection_body_exited"]
+[connection signal="body_entered" from="PlayerCollision" to="." method="_on_player_attack_body_entered"]
+[connection signal="body_entered" from="PlayerCollision" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_entered" from="PlayerCollision" to="." method="_on_player_collision_body_entered"]
+[connection signal="body_exited" from="PlayerCollision" to="." method="_on_player_detection_body_exited"]
