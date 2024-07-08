@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://bg.gd" id="1_sfc60"]
 [ext_resource type="PackedScene" uid="uid://b7fl8d8ojeu2q" path="res://Player/player.tscn" id="1_u3s4n"]
 [ext_resource type="Texture2D" uid="uid://ct5b55cfcryjw" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/environment/Background/back.png" id="2_nvy7g"]
-[ext_resource type="PackedScene" uid="uid://bqbsdd15x8f23" path="res://Enemy/Frog/frog.tscn" id="5_40mbw"]
+[ext_resource type="PackedScene" uid="uid://qx7hrfcpmplf" path="res://Collectibles/Cherry/cherry.tscn" id="5_0vkst"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3f2l0"]
 texture = ExtResource("1_51cmu")
@@ -460,13 +460,15 @@ texture = ExtResource("2_nvy7g")
 
 [node name="Mobs" type="Node2D" parent="."]
 
-[node name="Frog" parent="Mobs" instance=ExtResource("5_40mbw")]
-position = Vector2(384, 386)
-
 [node name="Player" type="Node2D" parent="."]
 
 [node name="Player" parent="Player" instance=ExtResource("1_u3s4n")]
 position = Vector2(622, 376)
+
+[node name="Collectables" type="Node2D" parent="."]
+
+[node name="Cherry" parent="Collectables" instance=ExtResource("5_0vkst")]
+position = Vector2(384, 390)
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = SubResource("GDScript_yg70m")
