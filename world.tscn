@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://bg.gd" id="1_sfc60"]
 [ext_resource type="PackedScene" uid="uid://b7fl8d8ojeu2q" path="res://Player/player.tscn" id="1_u3s4n"]
 [ext_resource type="Texture2D" uid="uid://ct5b55cfcryjw" path="res://Sunny Land Collection Files/Assets/Packs/Sunnyland/environment/Background/back.png" id="2_nvy7g"]
-[ext_resource type="PackedScene" uid="uid://qx7hrfcpmplf" path="res://Collectibles/Cherry/cherry.tscn" id="5_0vkst"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3f2l0"]
 texture = ExtResource("1_51cmu")
@@ -440,6 +439,20 @@ func _process(delta):
 	text = \"Gold: \" + str(Game.Gold)
 "
 
+[sub_resource type="GDScript" id="GDScript_64v1k"]
+script/source = "extends Node2D
+
+var Cherry = preload(\"res://Collectibles/Cherry/cherry.tscn\")
+
+
+func _on_timer_timeout():
+	var cherryTemp = Cherry.instantiate()
+	var rng = RandomNumberGenerator.new()
+	var ranint = rng.randi_range(10, 400)
+	cherryTemp.position = Vector2(ranint, 398)
+	get_node(\"Node2D\").add_child(cherryTemp)
+"
+
 [node name="World" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -465,11 +478,6 @@ texture = ExtResource("2_nvy7g")
 [node name="Player" parent="Player" instance=ExtResource("1_u3s4n")]
 position = Vector2(622, 376)
 
-[node name="Collectables" type="Node2D" parent="."]
-
-[node name="Cherry" parent="Collectables" instance=ExtResource("5_0vkst")]
-position = Vector2(384, 390)
-
 [node name="UI" type="CanvasLayer" parent="."]
 script = SubResource("GDScript_yg70m")
 
@@ -492,3 +500,13 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 24
 text = "Gold"
 script = SubResource("GDScript_46hq4")
+
+[node name="Collectables" type="Node2D" parent="."]
+script = SubResource("GDScript_64v1k")
+
+[node name="Timer" type="Timer" parent="Collectables"]
+autostart = true
+
+[node name="Node2D" type="Node2D" parent="Collectables"]
+
+[connection signal="timeout" from="Collectables/Timer" to="Collectables" method="_on_timer_timeout"]
